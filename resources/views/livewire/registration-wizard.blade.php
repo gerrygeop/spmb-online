@@ -1,369 +1,489 @@
-<div>
-	<!-- Stepper -->
-	<div class="mb-8 border-b border-gray-200 pb-4">
-		<nav aria-label="Progress">
-			<ol role="list" class="flex items-center">
-				@for ($i = 1; $i <= $totalSteps; $i++)
-					@if ($i != 1)
-						<li class="relative pr-8 sm:pr-20">
-							<div class="absolute inset-0 flex items-center" aria-hidden="true">
-								<div class="h-0.5 w-full bg-gray-200"></div>
-							</div>
-						</li>
-					@endif
-					<li class="relative pr-8 sm:pr-20">
-						<div class="absolute inset-0 flex items-center" aria-hidden="true">
-							<div class="h-0.5 w-full {{ $i < $currentStep ? 'bg-indigo-600' : 'bg-gray-200' }}"></div>
-						</div>
-						<a href="#"
-							class="relative flex h-8 w-8 items-center justify-center rounded-full {{ $i <= $currentStep ? 'bg-indigo-600 hover:bg-indigo-900' : 'bg-white border-2 border-gray-300 hover:border-gray-400' }}">
-							@if ($i < $currentStep)
-								<svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-									<path fill-rule="evenodd"
-										d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-										clip-rule="evenodd" />
-								</svg>
-							@elseif ($i == $currentStep)
-								<span class="h-2.5 w-2.5 rounded-full bg-white" aria-hidden="true"></span>
-							@else
-								<span class="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300" aria-hidden="true"></span>
-							@endif
-							<span class="sr-only">Step {{ $i }}</span>
-						</a>
-					</li>
-				@endfor
-			</ol>
-		</nav>
-		<div class="mt-4 text-center">
-			<h3 class="text-lg font-medium leading-6 text-gray-900">
+<div class="bg-indigo-50/50 min-h-screen py-12 px-4 sm:px-6 lg:px-8 font-sans">
+	<div class="max-w-4xl mx-auto">
+		{{-- <!-- Header --> --}}
+		<div class="text-center mb-10">
+			<h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">Formulir Pendaftaran Online</h1>
+			<p class="text-slate-500 text-lg">Lengkapi data diri Anda untuk bergabung dengan kami.</p>
+		</div>
+
+		<div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+			{{-- <!-- Stepper --> --}}
+			<div class="bg-slate-50/50 border-b border-slate-100 px-6 py-6 sm:px-10">
+				<nav aria-label="Progress">
+					<ol role="list" class="flex items-center justify-between w-full max-w-2xl mx-auto">
+						@foreach (range(1, $totalSteps) as $step)
+							<li class="relative flex flex-col items-start group {{ $step < $totalSteps ? 'flex-1' : '' }}">
+								<div class="flex items-center w-full">
+									<div class="relative flex flex-col items-center justify-center sm:gap-y-2">
+										<div
+											class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300 {{ $step <= $currentStep ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'bg-white border-slate-300 text-slate-400 group-hover:border-indigo-400' }}">
+											@if ($step < $currentStep)
+												<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+													<path fill-rule="evenodd"
+														d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+														clip-rule="evenodd" />
+												</svg>
+											@else
+												{{ $step }}
+											@endif
+										</div>
+
+										<span
+											class="text-xs font-medium hidden sm:block {{ $step <= $currentStep ? 'text-indigo-700' : 'text-slate-400' }}">
+											@if ($step == 1)
+												Jenjang
+											@elseif($step == 2)
+												Siswa
+											@elseif($step == 3)
+												Orang Tua
+											@elseif($step == 4)
+												Berkas
+											@elseif($step == 5)
+												Konfirmasi
+											@endif
+										</span>
+									</div>
+
+									@if ($step < $totalSteps)
+										<div class="flex-1 h-1 mx-4 rounded-full {{ $step < $currentStep ? 'bg-indigo-600' : 'bg-slate-200' }}">
+										</div>
+									@endif
+								</div>
+
+							</li>
+						@endforeach
+					</ol>
+				</nav>
+			</div>
+
+
+			<form wire:submit.prevent="submit" class="p-6 sm:p-10">
+				{{-- <!-- Step 1: School Level --> --}}
 				@if ($currentStep == 1)
-					Pilih Jenjang Sekolah
-				@elseif($currentStep == 2)
-					Data Calon Siswa
-				@elseif($currentStep == 3)
-					Data Orang Tua / Wali
-				@elseif($currentStep == 4)
-					Upload Berkas
-				@elseif($currentStep == 5)
-					Konfirmasi
+					<div class="animate-fade-in-up">
+						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+							<span
+								class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold">1</span>
+							Pilih Jenjang Sekolah
+						</h2>
+
+						<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+							@foreach (['sd', 'smp', 'sma'] as $level)
+								<label class="relative group cursor-pointer">
+									<input type="radio" name="school_level" value="{{ $level }}" wire:model.live="school_level"
+										class="peer sr-only">
+									<div
+										class="p-6 rounded-2xl border-2 transition-all duration-200 hover:shadow-md
+                                        {{ $school_level == $level ? 'border-indigo-600 bg-indigo-50/50 ring-1 ring-indigo-600 shadow-indigo-100' : 'border-slate-200 bg-white hover:border-indigo-300' }}">
+										<div class="flex items-center gap-4 mb-3">
+											<div
+												class="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl transition-colors
+                                                            {{ $school_level == $level ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-indigo-100 group-hover:text-indigo-600' }}">
+												{{ strtoupper($level) }}
+											</div>
+											<div class="flex-1">
+												<div class="font-bold text-slate-900 text-lg group-hover:text-indigo-700">
+													@if ($level == 'sd')
+														Sekolah Dasar
+													@elseif($level == 'smp')
+														SMP
+													@elseif($level == 'sma')
+														SMA
+													@endif
+												</div>
+											</div>
+											@if ($school_level == $level)
+												<div class="text-indigo-600">
+													<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+														<path fill-rule="evenodd"
+															d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+															clip-rule="evenodd" />
+													</svg>
+												</div>
+											@endif
+										</div>
+										<p class="text-sm text-slate-500 pl-16">
+											@if ($level == 'sd')
+												Program pendidikan dasar 6 tahun.
+											@elseif($level == 'smp')
+												Pendidikan menengah pertama.
+											@elseif($level == 'sma')
+												Pendidikan menengah atas.
+											@endif
+										</p>
+									</div>
+								</label>
+							@endforeach
+						</div>
+					</div>
+
+					@error('school_level')
+						<p class="mt-4 text-center text-sm font-semibold text-red-600 bg-red-50 py-2 rounded-lg border border-red-200">
+							{{ $message }}
+						</p>
+					@enderror
 				@endif
-			</h3>
+
+				{{-- <!-- Step 2: Student Data --> --}}
+				@if ($currentStep == 2)
+					<div class="animate-fade-in-up space-y-6">
+						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+							<span
+								class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold">2</span>
+							Data Pribadi Calon Siswa
+						</h2>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+							<div class="col-span-full md:col-span-2">
+								<label for="full_name" class="block text-sm font-semibold text-slate-700 mb-2">Nama
+									Lengkap</label>
+								<input type="text" wire:model="full_name" id="full_name"
+									class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+									placeholder="Sesuai Akta Kelahiran">
+								@error('full_name')
+									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+								@enderror
+							</div>
+
+							<div>
+								<label for="nisn" class="block text-sm font-semibold text-slate-700 mb-2">NISN <span
+										class="text-slate-400 font-normal">(Opsional)</span></label>
+								<input type="text" wire:model="nisn" id="nisn"
+									class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+									placeholder="Nomor Induk Siswa Nasional">
+								@error('nisn')
+									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+								@enderror
+							</div>
+
+							<div>
+								<label for="gender" class="block text-sm font-semibold text-slate-700 mb-2">Jenis
+									Kelamin</label>
+								<select id="gender" wire:model="gender"
+									class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900">
+									<option value="">Pilih Jenis Kelamin</option>
+									<option value="Laki-laki">Laki-laki</option>
+									<option value="Perempuan">Perempuan</option>
+								</select>
+								@error('gender')
+									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+								@enderror
+							</div>
+
+							<div>
+								<label for="place_of_birth" class="block text-sm font-semibold text-slate-700 mb-2">Tempat
+									Lahir</label>
+								<input type="text" wire:model="place_of_birth" id="place_of_birth"
+									class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+									placeholder="Kota Kelahiran">
+								@error('place_of_birth')
+									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+								@enderror
+							</div>
+
+							<div>
+								<label for="date_of_birth" class="block text-sm font-semibold text-slate-700 mb-2">Tanggal
+									Lahir</label>
+								<input type="date" wire:model="date_of_birth" id="date_of_birth"
+									class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900">
+								@error('date_of_birth')
+									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+								@enderror
+							</div>
+
+							<div>
+								<label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email
+									Siswa</label>
+								<input type="email" wire:model="email" id="email"
+									class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+									placeholder="nama@email.com">
+								@error('email')
+									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+								@enderror
+							</div>
+
+							<div>
+								<label for="phone_number" class="block text-sm font-semibold text-slate-700 mb-2">No. HP /
+									WhatsApp</label>
+								<input type="text" wire:model="phone_number" id="phone_number"
+									class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+									placeholder="08xxxxxxxxxx">
+								@error('phone_number')
+									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+								@enderror
+							</div>
+
+							<div class="col-span-full">
+								<label for="previous_school" class="block text-sm font-semibold text-slate-700 mb-2">Asal
+									Sekolah</label>
+								<input type="text" wire:model="previous_school" id="previous_school"
+									class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+									placeholder="Nama Sekolah Sebelumnya">
+								@error('previous_school')
+									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+								@enderror
+							</div>
+
+							<div class="col-span-full">
+								<label for="address" class="block text-sm font-semibold text-slate-700 mb-2">Alamat
+									Lengkap</label>
+								<textarea id="address" wire:model="address" rows="3"
+								 class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+								 placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota"></textarea>
+								@error('address')
+									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+								@enderror
+							</div>
+						</div>
+					</div>
+				@endif
+
+				{{-- <!-- Step 3: Parent Data --> --}}
+				@if ($currentStep == 3)
+					<div class="animate-fade-in-up space-y-8">
+						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+							<span
+								class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold">3</span>
+							Data Orang Tua / Wali
+						</h2>
+
+						{{-- <!-- Father --> --}}
+						<div class="p-6 rounded-2xl border border-slate-100">
+							<h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+								Data Ayah
+							</h3>
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<div>
+									<label class="block text-sm font-medium text-slate-700 mb-1">Nama Ayah</label>
+									<input type="text" wire:model="father_name"
+										class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+										placeholder="Sesuai Akta Kelahiran">
+									@error('father_name')
+										<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+									@enderror
+								</div>
+								<div>
+									<label class="block text-sm font-medium text-slate-700 mb-1">No. HP Ayah</label>
+									<input type="text" wire:model="father_phone"
+										class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+										placeholder="08xxxxxxxxxx">
+									@error('father_phone')
+										<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+									@enderror
+								</div>
+								<div class="col-span-full">
+									<label class="block text-sm font-medium text-slate-700 mb-1">Pekerjaan Ayah</label>
+									<input type="text" wire:model="father_occupation"
+										class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+										placeholder="Pekerjaan Sekarang">
+									@error('father_occupation')
+										<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+									@enderror
+								</div>
+							</div>
+						</div>
+
+						{{-- <!-- Mother --> --}}
+						<div class="p-6 rounded-2xl border border-slate-100">
+							<h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+								Data Ibu
+							</h3>
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<div>
+									<label class="block text-sm font-medium text-slate-700 mb-1">Nama Ibu</label>
+									<input type="text" wire:model="mother_name"
+										class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+										placeholder="Sesuai Akta Kelahiran">
+									@error('mother_name')
+										<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+									@enderror
+								</div>
+								<div>
+									<label class="block text-sm font-medium text-slate-700 mb-1">No. HP Ibu</label>
+									<input type="text" wire:model="mother_phone"
+										class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+										placeholder="08xxxxxxxxxx">
+									@error('mother_phone')
+										<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+									@enderror
+								</div>
+								<div class="col-span-full">
+									<label class="block text-sm font-medium text-slate-700 mb-1">Pekerjaan Ibu</label>
+									<input type="text" wire:model="mother_occupation"
+										class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+										placeholder="Pekerjaan Sekarang">
+									@error('mother_occupation')
+										<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+									@enderror
+								</div>
+							</div>
+						</div>
+					</div>
+				@endif
+
+				{{-- <!-- Step 4: Documents --> --}}
+				@if ($currentStep == 4)
+					<div class="animate-fade-in-up space-y-6">
+						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+							<span
+								class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold">4</span>
+							Upload Dokumen
+						</h2>
+
+						<div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+							<div class="flex">
+								<div class="shrink-0">
+									<svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd"
+											d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+											clip-rule="evenodd" />
+									</svg>
+								</div>
+								<div class="ml-3">
+									<p class="text-sm text-blue-700">
+										Format file yang diterima: <strong>PDF, JPG, JPEG, PNG</strong>. Maksimal
+										<strong>2MB</strong> per file.
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="space-y-6">
+							@foreach (['document_kartu_keluarga' => 'Kartu Keluarga', 'document_akte_kelahiran' => 'Akte Kelahiran', 'document_ijazah' => 'Ijazah / SKL'] as $field => $label)
+								<div class="bg-white border border-slate-200 rounded-xl p-5 hover:border-indigo-300 transition-colors">
+									<label for="{{ $field }}" class="flex items-center justify-between mb-2">
+										<span class="block text-base font-semibold text-slate-900">{{ $label }}</span>
+										@if ($field === 'document_ijazah')
+											<span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">Opsional</span>
+										@else
+											<span class="text-xs text-red-500 font-medium">*Wajib</span>
+										@endif
+									</label>
+
+									<input type="file" wire:model="{{ $field }}" id="{{ $field }}"
+										class="block w-full text-sm text-slate-500
+															  file:mr-4 file:py-2.5 file:px-4
+															  file:rounded-full file:border-0
+															  file:text-sm file:font-semibold
+															  file:bg-indigo-50 file:text-indigo-700
+															  hover:file:bg-indigo-100
+															" />
+
+									<div wire:loading wire:target="{{ $field }}"
+										class="mt-2 text-sm text-indigo-600 italic flex items-center gap-1">
+										<svg class="animate-spin h-4 w-4 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+											viewBox="0 0 24 24">
+											<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+											</circle>
+											<path class="opacity-75" fill="currentColor"
+												d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+											</path>
+										</svg>
+										Uploading...
+									</div>
+									@error($field)
+										<p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+									@enderror
+								</div>
+							@endforeach
+						</div>
+					</div>
+				@endif
+
+				{{-- <!-- Step 5: Confirmation --> --}}
+				@if ($currentStep == 5)
+					<div class="animate-fade-in-up">
+						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+							<span
+								class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold">5</span>
+							Konfirmasi Data
+						</h2>
+
+						<div class="bg-yellow-50 border border-yellow-200 rounded-xl p-5 mb-8">
+							<div class="flex items-start gap-4">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600 mt-1" fill="none"
+									viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+								</svg>
+								<div>
+									<h3 class="text-yellow-800 font-bold">Periksa Kembali Data Anda</h3>
+									<p class="text-yellow-700 text-sm mt-1">Pastikan seluruh data yang Anda masukkan sudah
+										benar. Data tidak dapat diubah setelah pendaftaran dikirim (kecuali diminta
+										perbaikan).</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="bg-white border border-slate-200 rounded-2xl overflow-hidden mb-8">
+							<dl class="divide-y divide-slate-100">
+								<div class="px-6 py-4 grid grid-cols-3 gap-4 hover:bg-slate-50">
+									<dt class="text-sm font-medium text-slate-500">Jenjang Pendaftaran</dt>
+									<dd class="text-sm text-slate-900 font-bold col-span-2">{{ strtoupper($school_level) }}
+									</dd>
+								</div>
+								<div class="px-6 py-4 grid grid-cols-3 gap-4 hover:bg-slate-50">
+									<dt class="text-sm font-medium text-slate-500">Nama Lengkap</dt>
+									<dd class="text-sm text-slate-900 col-span-2">{{ $full_name }}</dd>
+								</div>
+								<div class="px-6 py-4 grid grid-cols-3 gap-4 hover:bg-slate-50">
+									<dt class="text-sm font-medium text-slate-500">Email</dt>
+									<dd class="text-sm text-slate-900 col-span-2">{{ $email }}</dd>
+								</div>
+								<div class="px-6 py-4 grid grid-cols-3 gap-4 hover:bg-slate-50">
+									<dt class="text-sm font-medium text-slate-500">No. HP</dt>
+									<dd class="text-sm text-slate-900 col-span-2">{{ $phone_number }}</dd>
+								</div>
+								<div class="px-6 py-4 grid grid-cols-3 gap-4 hover:bg-slate-50">
+									<dt class="text-sm font-medium text-slate-500">Orang Tua</dt>
+									<dd class="text-sm text-slate-900 col-span-2">{{ $father_name }} & {{ $mother_name }}
+									</dd>
+								</div>
+							</dl>
+						</div>
+
+						<div class="flex items-start gap-3 p-4 bg-slate-50 rounded-xl">
+							<input id="confirm" type="checkbox" required
+								class="mt-1 h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+							<label for="confirm" class="text-sm text-slate-600">
+								Saya menyatakan bahwa seluruh data yang saya isikan adalah benar dan dapat
+								dipertanggungjawabkan hukum. Saya bersedia menerima sanksi apabila ditemukan ketidaksesuaian
+								data di kemudian hari.
+							</label>
+						</div>
+					</div>
+				@endif
+
+				{{-- <!-- Navigation Buttons --> --}}
+				<div class="mt-10 pt-6 border-t border-slate-100 flex justify-between items-center">
+					@if ($currentStep > 1)
+						<button type="button" wire:click="previousStep"
+							class="px-6 py-3 border border-slate-300 shadow-sm text-sm font-bold rounded-full text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							&larr; Kembali
+						</button>
+					@else
+						{{-- <!-- Spacer --> --}}
+						<div></div>
+					@endif
+
+					@if ($currentStep < $totalSteps)
+						<button type="button" wire:click="nextStep"
+							class="inline-flex items-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							Selanjutnya &rarr;
+						</button>
+					@else
+						<button type="submit"
+							class="inline-flex items-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-green-600 hover:bg-green-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+							Kirim Pendaftaran
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+								<path fill-rule="evenodd"
+									d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+									clip-rule="evenodd" />
+							</svg>
+						</button>
+					@endif
+				</div>
+			</form>
 		</div>
 	</div>
-
-	@if ($errors->any())
-		<div class="rounded-md bg-red-50 p-4 mb-6">
-			<div class="flex">
-				<div class="shrink-0">
-					<svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-						<path fill-rule="evenodd"
-							d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
-							clip-rule="evenodd" />
-					</svg>
-				</div>
-				<div class="ml-3">
-					<h3 class="text-sm font-medium text-red-800">Terdapat kesalahan pada inputan Anda:</h3>
-					<div class="mt-2 text-sm text-red-700">
-						<ul role="list" class="list-disc pl-5 space-y-1">
-							@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-							@endforeach
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	@endif
-
-	<form wire:submit.prevent="submit">
-		<!-- Step 1: School Level -->
-		@if ($currentStep == 1)
-			<div class="space-y-6">
-				<div>
-					<label class="text-base font-semibold text-gray-900">Pilih Jenjang Pendidikan</label>
-					<p class="text-sm text-gray-500">Silakan pilih jenjang pendidikan yang akan didaftar.</p>
-					<fieldset class="mt-4">
-						<legend class="sr-only">Jenjang Sekolah</legend>
-						<div class="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
-							<div class="flex items-center">
-								<input id="sd" name="school_level" type="radio" value="sd" wire:model="school_level"
-									class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-								<label for="sd" class="ml-3 block text-sm font-medium leading-6 text-gray-900">SD</label>
-							</div>
-							<div class="flex items-center">
-								<input id="smp" name="school_level" type="radio" value="smp" wire:model="school_level"
-									class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-								<label for="smp" class="ml-3 block text-sm font-medium leading-6 text-gray-900">SMP</label>
-							</div>
-							<div class="flex items-center">
-								<input id="sma" name="school_level" type="radio" value="sma" wire:model="school_level"
-									class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-								<label for="sma" class="ml-3 block text-sm font-medium leading-6 text-gray-900">SMA</label>
-							</div>
-						</div>
-					</fieldset>
-				</div>
-			</div>
-		@endif
-
-		<!-- Step 2: Student Data -->
-		@if ($currentStep == 2)
-			<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-				<div class="sm:col-span-4">
-					<label for="full_name" class="block text-sm font-medium leading-6 text-gray-900">Nama Lengkap</label>
-					<div class="mt-2">
-						<input type="text" wire:model="full_name" id="full_name"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-					</div>
-				</div>
-
-				<div class="sm:col-span-3">
-					<label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-					<div class="mt-2">
-						<input type="email" wire:model="email" id="email"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-					</div>
-				</div>
-
-				<div class="sm:col-span-3">
-					<label for="phone_number" class="block text-sm font-medium leading-6 text-gray-900">Nomor HP /
-						WhatsApp</label>
-					<div class="mt-2">
-						<input type="text" wire:model="phone_number" id="phone_number"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-					</div>
-				</div>
-
-				<div class="sm:col-span-3">
-					<label for="gender" class="block text-sm font-medium leading-6 text-gray-900">Jenis Kelamin</label>
-					<div class="mt-2">
-						<select id="gender" wire:model="gender"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-							<option value="">Pilih...</option>
-							<option value="Laki-laki">Laki-laki</option>
-							<option value="Perempuan">Perempuan</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="sm:col-span-3">
-					<label for="date_of_birth" class="block text-sm font-medium leading-6 text-gray-900">Tanggal
-						Lahir</label>
-					<div class="mt-2">
-						<input type="date" wire:model="date_of_birth" id="date_of_birth"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-					</div>
-				</div>
-
-				<div class="sm:col-span-3">
-					<label for="place_of_birth" class="block text-sm font-medium leading-6 text-gray-900">Tempat
-						Lahir</label>
-					<div class="mt-2">
-						<input type="text" wire:model="place_of_birth" id="place_of_birth"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-					</div>
-				</div>
-				<div class="sm:col-span-3">
-					<label for="nisn" class="block text-sm font-medium leading-6 text-gray-900">NISN (Opsional)</label>
-					<div class="mt-2">
-						<input type="text" wire:model="nisn" id="nisn"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-					</div>
-				</div>
-
-				<div class="col-span-full">
-					<label for="address" class="block text-sm font-medium leading-6 text-gray-900">Alamat Lengkap</label>
-					<div class="mt-2">
-						<textarea id="address" wire:model="address" rows="3"
-						 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-					</div>
-				</div>
-
-				<div class="col-span-full">
-					<label for="previous_school" class="block text-sm font-medium leading-6 text-gray-900">Asal
-						Sekolah</label>
-					<div class="mt-2">
-						<input type="text" wire:model="previous_school" id="previous_school"
-							class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-					</div>
-				</div>
-			</div>
-		@endif
-
-		<!-- Step 3: Parent Data -->
-		@if ($currentStep == 3)
-			<div class="space-y-8">
-				<!-- Father -->
-				<div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
-					<div class="col-span-full border-b border-gray-900/10 pb-2">
-						<h2 class="text-base font-semibold leading-7 text-gray-900">Data Ayah</h2>
-					</div>
-					<div class="sm:col-span-2">
-						<label for="father_name" class="block text-sm font-medium leading-6 text-gray-900">Nama Ayah</label>
-						<div class="mt-2">
-							<input type="text" wire:model="father_name" id="father_name"
-								class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-						</div>
-					</div>
-					<div class="sm:col-span-2">
-						<label for="father_phone" class="block text-sm font-medium leading-6 text-gray-900">No. HP
-							Ayah</label>
-						<div class="mt-2">
-							<input type="text" wire:model="father_phone" id="father_phone"
-								class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-						</div>
-					</div>
-					<div class="sm:col-span-2">
-						<label for="father_occupation" class="block text-sm font-medium leading-6 text-gray-900">Pekerjaan
-							Ayah</label>
-						<div class="mt-2">
-							<input type="text" wire:model="father_occupation" id="father_occupation"
-								class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-						</div>
-					</div>
-				</div>
-
-				<!-- Mother -->
-				<div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
-					<div class="col-span-full border-b border-gray-900/10 pb-2">
-						<h2 class="text-base font-semibold leading-7 text-gray-900">Data Ibu</h2>
-					</div>
-					<div class="sm:col-span-2">
-						<label for="mother_name" class="block text-sm font-medium leading-6 text-gray-900">Nama Ibu</label>
-						<div class="mt-2">
-							<input type="text" wire:model="mother_name" id="mother_name"
-								class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-						</div>
-					</div>
-					<div class="sm:col-span-2">
-						<label for="mother_phone" class="block text-sm font-medium leading-6 text-gray-900">No. HP
-							Ibu</label>
-						<div class="mt-2">
-							<input type="text" wire:model="mother_phone" id="mother_phone"
-								class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-						</div>
-					</div>
-					<div class="sm:col-span-2">
-						<label for="mother_occupation" class="block text-sm font-medium leading-6 text-gray-900">Pekerjaan
-							Ibu</label>
-						<div class="mt-2">
-							<input type="text" wire:model="mother_occupation" id="mother_occupation"
-								class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-						</div>
-					</div>
-				</div>
-
-				<!-- Guardian (Optional) -->
-				<div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
-					<div class="col-span-full border-b border-gray-900/10 pb-2">
-						<h2 class="text-base font-semibold leading-7 text-gray-900">Data Wali (Opsional)</h2>
-					</div>
-					<div class="sm:col-span-2">
-						<label for="guardian_name" class="block text-sm font-medium leading-6 text-gray-900">Nama
-							Wali</label>
-						<div class="mt-2">
-							<input type="text" wire:model="guardian_name" id="guardian_name"
-								class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-						</div>
-					</div>
-					<div class="sm:col-span-2">
-						<label for="guardian_phone" class="block text-sm font-medium leading-6 text-gray-900">No. HP
-							Wali</label>
-						<div class="mt-2">
-							<input type="text" wire:model="guardian_phone" id="guardian_phone"
-								class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-						</div>
-					</div>
-					<div class="sm:col-span-2">
-						<label for="guardian_occupation" class="block text-sm font-medium leading-6 text-gray-900">Pekerjaan
-							Wali</label>
-						<div class="mt-2">
-							<input type="text" wire:model="guardian_occupation" id="guardian_occupation"
-								class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-						</div>
-					</div>
-				</div>
-			</div>
-		@endif
-
-		<!-- Step 4: Documents -->
-		@if ($currentStep == 4)
-			<div class="space-y-6">
-				<div class="col-span-full">
-					<label for="document_kartu_keluarga" class="block text-sm font-medium leading-6 text-gray-900">Kartu
-						Keluarga (PDF/Image, Max 2MB)</label>
-					<div class="mt-2">
-						<input type="file" wire:model="document_kartu_keluarga" id="document_kartu_keluarga"
-							class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-					</div>
-					<div wire:loading wire:target="document_kartu_keluarga">Uploading...</div>
-				</div>
-				<div class="col-span-full">
-					<label for="document_akte_kelahiran" class="block text-sm font-medium leading-6 text-gray-900">Akte
-						Kelahiran (PDF/Image, Max 2MB)</label>
-					<div class="mt-2">
-						<input type="file" wire:model="document_akte_kelahiran" id="document_akte_kelahiran"
-							class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-					</div>
-					<div wire:loading wire:target="document_akte_kelahiran">Uploading...</div>
-				</div>
-				<div class="col-span-full">
-					<label for="document_ijazah" class="block text-sm font-medium leading-6 text-gray-900">Ijazah / SKL
-						(Opsional) (PDF/Image, Max 2MB)</label>
-					<div class="mt-2">
-						<input type="file" wire:model="document_ijazah" id="document_ijazah"
-							class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-					</div>
-					<div wire:loading wire:target="document_ijazah">Uploading...</div>
-				</div>
-			</div>
-		@endif
-
-		<!-- Step 5: Confirmation -->
-		@if ($currentStep == 5)
-			<div class="space-y-6">
-				<p class="text-sm text-gray-500">Mohon periksa kembali data yang telah Anda masukkan sebelum mengirim
-					pendaftaran.</p>
-
-				<div class="bg-gray-50 p-4 rounded-md space-y-2">
-					<p><strong>Jenjang:</strong> {{ strtoupper($school_level) }}</p>
-					<p><strong>Nama:</strong> {{ $full_name }}</p>
-					<p><strong>Email:</strong> {{ $email }}</p>
-					<p><strong>No. HP:</strong> {{ $phone_number }}</p>
-					<p><strong>Orang Tua:</strong> {{ $father_name }} & {{ $mother_name }}</p>
-				</div>
-
-				<div class="flex items-center">
-					<input id="confirm" type="checkbox" required
-						class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-					<label for="confirm" class="ml-2 block text-sm text-gray-900">Saya menyatakan bahwa data yang saya
-						masukkan adalah benar.</label>
-				</div>
-			</div>
-		@endif
-
-		<!-- Navigation Buttons -->
-		<div class="mt-8 flex justify-between">
-			@if ($currentStep > 1)
-				<button type="button" wire:click="previousStep"
-					class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-					Kembali
-				</button>
-			@else
-				<div></div>
-			@endif
-
-			@if ($currentStep < $totalSteps)
-				<button type="button" wire:click="nextStep"
-					class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-					Selanjutnya
-				</button>
-			@else
-				<button type="submit"
-					class="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-green-600">
-					Kirim Pendaftaran
-				</button>
-			@endif
-		</div>
-	</form>
 </div>

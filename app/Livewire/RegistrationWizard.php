@@ -245,6 +245,6 @@ class RegistrationWizard extends Component
     public function render()
     {
         return view('livewire.registration-wizard')
-            ->layout('components.layouts.registration');
+            ->layout('components.layouts.landing');
     }
 }

@@ -19,7 +19,7 @@
 
 <body class="bg-gray-50 text-slate-800 antialiased">
 	<!-- Navbar -->
-	<nav class="bg-white border-b border-gray-100 sticky top-0 z-50/50 backdrop-blur-lg">
+	<nav class="bg-white/70 border-b border-gray-100 fixed top-0 w-full z-50 shadow backdrop-blur-lg">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex justify-between h-20 items-center">
 				<div class="flex items-center gap-3">
@@ -59,7 +59,7 @@
 		</div>
 	</nav>
 
-	<main>
+	<main class="pt-20">
 		{{ $slot }}
 	</main>
 

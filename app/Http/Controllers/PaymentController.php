@@ -24,9 +24,9 @@ class PaymentController extends Controller
             ->firstOrFail();
 
         try {
-            $snapToken = $this->midtransService->createSnapToken($registration);
-            
-            return response()->json(['snap_token' => $snapToken]);
+            $result = $this->midtransService->createSnapToken($registration);
+
+            return response()->json(['snap_token' => $result['snap_token']]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -42,16 +42,18 @@ class PaymentController extends Controller
             'transaction_status' => 'required|string',
         ]);
 
-        $registration = Registration::where('registration_code', $validated['registration_code'])->firstOrFail();
+        $registration = Registration::with('payment')
+            ->where('registration_code', $validated['registration_code'])
+            ->firstOrFail();
 
-        $this->midtransService->updateRegistrationStatus(
+        $newStatus = $this->midtransService->updatePaymentStatus(
             $registration,
             $validated['transaction_status']
         );
 
         return response()->json([
             'message' => 'Status updated',
-            'new_status' => $registration->fresh()->status,
+            'new_status' => $newStatus,
         ]);
     }
 
@@ -67,13 +69,15 @@ class PaymentController extends Controller
         }
 
         $registrationCode = $this->midtransService->parseRegistrationCode($notification['order_id']);
-        $registration = Registration::where('registration_code', $registrationCode)->first();
+        $registration = Registration::with('payment')
+            ->where('registration_code', $registrationCode)
+            ->first();
 
         if (!$registration) {
             return response()->json(['message' => 'Registration not found'], 404);
         }
 
-        $this->midtransService->updateRegistrationStatus(
+        $this->midtransService->updatePaymentStatus(
             $registration,
             $notification['transaction_status'],
             $notification['fraud_status']

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Payment;
 use App\Models\Registration;
 use Midtrans\Config;
 use Midtrans\Snap;
@@ -14,9 +15,6 @@ class MidtransService
         $this->initConfig();
     }
 
-    /**
-     * Initialize Midtrans configuration
-     */
     private function initConfig(): void
     {
         Config::$serverKey = config('services.midtrans.server_key');
@@ -26,13 +24,15 @@ class MidtransService
     }
 
     /**
-     * Create Snap token for payment popup
+     * Create Snap token and save payment record
      */
-    public function createSnapToken(Registration $registration): string
+    public function createSnapToken(Registration $registration): array
     {
+        $orderId = $this->generateOrderId($registration);
+        
         $params = [
             'transaction_details' => [
-                'order_id' => $this->generateOrderId($registration),
+                'order_id' => $orderId,
                 'gross_amount' => (int) $registration->total_amount,
             ],
             'customer_details' => [
@@ -42,12 +42,29 @@ class MidtransService
             ],
         ];
 
-        Log::info('Creating Snap token', [
+        $snapToken = Snap::getSnapToken($params);
+
+        // Create or update payment record
+        $payment = Payment::updateOrCreate(
+            ['registration_id' => $registration->id],
+            [
+                'amount' => $registration->total_amount,
+                'status' => 'pending',
+                'snap_token' => $snapToken,
+                'order_id' => $orderId,
+            ]
+        );
+
+        Log::info('Snap token created', [
             'registration_code' => $registration->registration_code,
-            'order_id' => $params['transaction_details']['order_id'],
+            'order_id' => $orderId,
+            'payment_id' => $payment->id,
         ]);
 
-        return Snap::getSnapToken($params);
+        return [
+            'snap_token' => $snapToken,
+            'order_id' => $orderId,
+        ];
     }
 
     /**
@@ -57,37 +74,39 @@ class MidtransService
     {
         $notif = new \Midtrans\Notification();
 
-        $result = [
+        return [
             'transaction_status' => $notif->transaction_status,
             'payment_type' => $notif->payment_type,
             'order_id' => $notif->order_id,
             'fraud_status' => $notif->fraud_status ?? 'accept',
         ];
-
-        Log::info('Midtrans notification received', $result);
-
-        return $result;
     }
 
     /**
-     * Update registration status based on transaction status
+     * Update registration and payment status
      */
-    public function updateRegistrationStatus(Registration $registration, string $transactionStatus, string $fraudStatus = 'accept'): void
+    public function updatePaymentStatus(Registration $registration, string $transactionStatus, string $fraudStatus = 'accept'): string
     {
         $newStatus = $this->mapTransactionStatus($transactionStatus, $fraudStatus);
+        $paymentStatus = $this->mapPaymentStatus($transactionStatus);
         
         $registration->update(['status' => $newStatus]);
+        
+        // Update payment record
+        if ($registration->payment) {
+            $registration->payment->update(['status' => $paymentStatus]);
+        }
 
-        Log::info('Registration status updated', [
+        Log::info('Payment status updated', [
             'registration_code' => $registration->registration_code,
             'transaction_status' => $transactionStatus,
-            'new_status' => $newStatus,
+            'new_registration_status' => $newStatus,
+            'payment_status' => $paymentStatus,
         ]);
+
+        return $newStatus;
     }
 
-    /**
-     * Map Midtrans transaction status to registration status
-     */
     private function mapTransactionStatus(string $transactionStatus, string $fraudStatus): string
     {
         return match ($transactionStatus) {
@@ -99,19 +118,24 @@ class MidtransService
         };
     }
 
-    /**
-     * Parse registration code from order ID
-     */
+    private function mapPaymentStatus(string $transactionStatus): string
+    {
+        return match ($transactionStatus) {
+            'capture', 'settlement' => 'success',
+            'pending' => 'pending',
+            'deny', 'cancel' => 'failed',
+            'expire' => 'expired',
+            default => 'pending',
+        };
+    }
+
     public function parseRegistrationCode(string $orderId): string
     {
         $parts = explode('-', $orderId);
-        array_pop($parts); // Remove timestamp
+        array_pop($parts);
         return implode('-', $parts);
     }
 
-    /**
-     * Generate unique order ID
-     */
     private function generateOrderId(Registration $registration): string
     {
         return $registration->registration_code . '-' . time();

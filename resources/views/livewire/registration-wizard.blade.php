@@ -474,10 +474,15 @@
 
 					@if ($currentStep < $totalSteps)
 						<button type="button" wire:click="nextStep" wire:loading.attr="disabled"
-							class="inline-flex items-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
-							<span wire:loading.remove wire:target="nextStep">Selanjutnya &rarr;</span>
-							<div wire:loading wire:target="nextStep" class="flex shrink-0 items-center">
-								<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+							class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed min-w-40">
+
+							<span wire:loading.remove wire:target="nextStep" class="flex items-center gap-2">
+								Selanjutnya
+								<span>&rarr;</span>
+							</span>
+
+							<span wire:loading.flex wire:target="nextStep" class="flex items-center justify-center">
+								<svg class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
 									viewBox="0 0 24 24">
 									<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
 									</circle>
@@ -486,21 +491,23 @@
 									</path>
 								</svg>
 								<span>Memproses...</span>
-							</div>
+							</span>
 						</button>
 					@else
 						<button type="submit" wire:loading.attr="disabled"
-							class="inline-flex items-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-green-600 hover:bg-green-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed">
-							<span wire:loading.remove wire:target="submit">Kirim Pendaftaran</span>
-							<span wire:loading.remove wire:target="submit">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+							class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-green-600 hover:bg-green-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-70 disabled:cursor-not-allowed min-w-50">
+
+							<span wire:loading.remove wire:target="submit" class="flex items-center justify-center gap-2">
+								Kirim Pendaftaran
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
 									<path fill-rule="evenodd"
 										d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
 										clip-rule="evenodd" />
 								</svg>
 							</span>
-							<span wire:loading wire:target="submit" class="flex items-center">
-								<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+
+							<span wire:loading.flex wire:target="submit" class="items-center justify-center gap-2">
+								<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
 									viewBox="0 0 24 24">
 									<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
 									</circle>
@@ -508,7 +515,7 @@
 										d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
 									</path>
 								</svg>
-								Mengirim...
+								<span class="whitespace-nowrap">Mengirim...</span>
 							</span>
 						</button>
 					@endif

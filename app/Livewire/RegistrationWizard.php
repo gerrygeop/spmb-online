@@ -11,7 +11,7 @@ class RegistrationWizard extends Component
 {
     use WithFileUploads;
 
-    public $currentStep = 1;
+    public $currentStep = 5;
     public $totalSteps = 5;
     public $registrationCode;
     public $isEdit = false;

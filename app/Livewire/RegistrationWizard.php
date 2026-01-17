@@ -238,7 +238,8 @@ class RegistrationWizard extends Component
                 return redirect()->route('status.show', ['code' => $registration->registration_code])->with('message', 'Data berhasil diperbarui!');
             }
 
-            return redirect()->route('registration.success', ['code' => $registration->registration_code]);
+            return redirect()->route('status.show', ['code' => $registration->registration_code])
+                ->with('success', 'Pendaftaran berhasil diterima! Silakan selesaikan pembayaran di bawah ini.');
         });
     }
 

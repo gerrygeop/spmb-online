@@ -18,7 +18,8 @@
 										<div
 											class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300 {{ $step <= $currentStep ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'bg-white border-slate-300 text-slate-400 group-hover:border-indigo-400' }}">
 											@if ($step < $currentStep)
-												<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+												<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+													fill="currentColor">
 													<path fill-rule="evenodd"
 														d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
 														clip-rule="evenodd" />
@@ -45,7 +46,8 @@
 									</div>
 
 									@if ($step < $totalSteps)
-										<div class="flex-1 h-1 mx-4 rounded-full {{ $step < $currentStep ? 'bg-indigo-600' : 'bg-slate-200' }}">
+										<div
+											class="flex-1 h-1 mx-4 rounded-full {{ $step < $currentStep ? 'bg-indigo-600' : 'bg-slate-200' }}">
 										</div>
 									@endif
 								</div>
@@ -74,11 +76,11 @@
 										class="peer sr-only">
 									<div
 										class="p-6 rounded-2xl border-2 transition-all duration-200 hover:shadow-md
-                                        {{ $school_level == $level ? 'border-indigo-600 bg-indigo-50/50 ring-1 ring-indigo-600 shadow-indigo-100' : 'border-slate-200 bg-white hover:border-indigo-300' }}">
+												{{ $school_level == $level ? 'border-indigo-600 bg-indigo-50/50 ring-1 ring-indigo-600 shadow-indigo-100' : 'border-slate-200 bg-white hover:border-indigo-300' }}">
 										<div class="flex items-center gap-4 mb-3">
 											<div
 												class="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl transition-colors
-                                                            {{ $school_level == $level ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-indigo-100 group-hover:text-indigo-600' }}">
+																	{{ $school_level == $level ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-indigo-100 group-hover:text-indigo-600' }}">
 												{{ strtoupper($level) }}
 											</div>
 											<div class="flex-1">
@@ -94,7 +96,8 @@
 											</div>
 											@if ($school_level == $level)
 												<div class="text-indigo-600">
-													<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+													<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+														fill="currentColor">
 														<path fill-rule="evenodd"
 															d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
 															clip-rule="evenodd" />
@@ -118,7 +121,8 @@
 					</div>
 
 					@error('school_level')
-						<p class="mt-4 text-center text-sm font-semibold text-red-600 bg-red-50 py-2 rounded-lg border border-red-200">
+						<p
+							class="mt-4 text-center text-sm font-semibold text-red-600 bg-red-50 py-2 rounded-lg border border-red-200">
 							{{ $message }}
 						</p>
 					@enderror
@@ -228,8 +232,8 @@
 								<label for="address" class="block text-sm font-semibold text-slate-700 mb-2">Alamat
 									Lengkap</label>
 								<textarea id="address" wire:model="address" rows="3"
-								 class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
-								 placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota"></textarea>
+									class="w-full rounded-xl border-slate-300 border focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 text-slate-900"
+									placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota"></textarea>
 								@error('address')
 									<p class="mt-1 text-sm text-red-600">{{ $message }}</p>
 								@enderror
@@ -350,7 +354,8 @@
 
 						<div class="space-y-6">
 							@foreach (['document_kartu_keluarga' => 'Kartu Keluarga', 'document_akte_kelahiran' => 'Akte Kelahiran', 'document_ijazah' => 'Ijazah / SKL'] as $field => $label)
-								<div class="bg-white border border-slate-200 rounded-xl p-5 hover:border-indigo-300 transition-colors">
+								<div
+									class="bg-white border border-slate-200 rounded-xl p-5 hover:border-indigo-300 transition-colors">
 									<label for="{{ $field }}" class="flex items-center justify-between mb-2">
 										<span class="block text-base font-semibold text-slate-900">{{ $label }}</span>
 										@if ($field === 'document_ijazah')
@@ -360,20 +365,20 @@
 										@endif
 									</label>
 
-									<input type="file" wire:model="{{ $field }}" id="{{ $field }}"
-										class="block w-full text-sm text-slate-500
-															  file:mr-4 file:py-2.5 file:px-4
-															  file:rounded-full file:border-0
-															  file:text-sm file:font-semibold
-															  file:bg-indigo-50 file:text-indigo-700
-															  hover:file:bg-indigo-100
-															" />
+									<input type="file" wire:model="{{ $field }}" id="{{ $field }}" class="block w-full text-sm text-slate-500
+																	  file:mr-4 file:py-2.5 file:px-4
+																	  file:rounded-full file:border-0
+																	  file:text-sm file:font-semibold
+																	  file:bg-indigo-50 file:text-indigo-700
+																	  hover:file:bg-indigo-100
+																	" />
 
 									<div wire:loading wire:target="{{ $field }}"
 										class="mt-2 text-sm text-indigo-600 italic flex items-center gap-1">
-										<svg class="animate-spin h-4 w-4 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none"
-											viewBox="0 0 24 24">
-											<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+										<svg class="animate-spin h-4 w-4 text-indigo-600" xmlns="http://www.w3.org/2000/svg"
+											fill="none" viewBox="0 0 24 24">
+											<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+												stroke-width="4">
 											</circle>
 											<path class="opacity-75" fill="currentColor"
 												d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
@@ -467,19 +472,46 @@
 					@endif
 
 					@if ($currentStep < $totalSteps)
-						<button type="button" wire:click="nextStep"
-							class="inline-flex items-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-							Selanjutnya &rarr;
+						<button type="button" wire:click="nextStep" wire:loading.attr="disabled"
+							class="inline-flex items-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+							<span wire:loading.remove wire:target="nextStep">Selanjutnya &rarr;</span>
+							<span wire:loading wire:target="nextStep" class="flex items-center">
+								<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+									fill="none" viewBox="0 0 24 24">
+									<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+										stroke-width="4">
+									</circle>
+									<path class="opacity-75" fill="currentColor"
+										d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+									</path>
+								</svg>
+								Memproses...
+							</span>
 						</button>
 					@else
-						<button type="submit"
-							class="inline-flex items-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-green-600 hover:bg-green-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-							Kirim Pendaftaran
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-								<path fill-rule="evenodd"
-									d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-									clip-rule="evenodd" />
-							</svg>
+						<button type="submit" wire:loading.attr="disabled"
+							class="inline-flex items-center px-8 py-3 border border-transparent text-sm font-bold rounded-full shadow-lg text-white bg-green-600 hover:bg-green-700 hover:scale-105 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed">
+							<span wire:loading.remove wire:target="submit">Kirim Pendaftaran</span>
+							<span wire:loading.remove wire:target="submit">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
+									fill="currentColor">
+									<path fill-rule="evenodd"
+										d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+										clip-rule="evenodd" />
+								</svg>
+							</span>
+							<span wire:loading wire:target="submit" class="flex items-center">
+								<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+									fill="none" viewBox="0 0 24 24">
+									<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+										stroke-width="4">
+									</circle>
+									<path class="opacity-75" fill="currentColor"
+										d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+									</path>
+								</svg>
+								Mengirim...
+							</span>
 						</button>
 					@endif
 				</div>

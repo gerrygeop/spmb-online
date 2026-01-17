@@ -22,7 +22,7 @@
 						<label for="registration_code" class="sr-only">Kode Pendaftaran</label>
 						<input id="registration_code" name="registration_code" type="text" required
 							class="appearance-none rounded-lg relative block w-full px-4 py-3 border border-slate-300 placeholder-slate-500 text-slate-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-							placeholder="Masukkan Kode Pendaftaran (Contoh: REG-2024-XXXX)">
+							placeholder="Contoh: REG-2024-XXXX">
 					</div>
 				</div>
 				@error('registration_code')

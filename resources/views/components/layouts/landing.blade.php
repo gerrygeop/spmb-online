@@ -23,7 +23,8 @@
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex justify-between h-20 items-center">
 				<div class="flex items-center gap-3">
-					<div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+					<div
+						class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
 							stroke="currentColor" class="w-6 h-6">
 							<path stroke-linecap="round" stroke-linejoin="round"
@@ -38,9 +39,11 @@
 				<div class="hidden md:flex space-x-8 items-center">
 					<a href="{{ url('/') }}"
 						class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Beranda</a>
-					<a href="#alur" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Alur
+					<a href="#alur"
+						class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Alur
 						Pendaftaran</a>
-					<a href="#jadwal" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Jadwal</a>
+					<a href="#jadwal"
+						class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Jadwal</a>
 					<a href="{{ route('status') }}"
 						class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Cek
 						Status</a>
@@ -68,7 +71,8 @@
 			<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
 				<div class="col-span-1 md:col-span-1">
 					<div class="flex items-center gap-3 mb-6">
-						<div class="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center text-slate-900 font-bold">
+						<div
+							class="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center text-slate-900 font-bold">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
 								stroke="currentColor" class="w-6 h-6">
 								<path stroke-linecap="round" stroke-linejoin="round"
@@ -106,10 +110,12 @@
 					<h3 class="font-bold text-lg mb-4">Hubungi Kami</h3>
 					<ul class="space-y-3 text-sm text-slate-400">
 						<li class="flex items-start gap-3">
-							<svg class="w-5 h-5 text-yellow-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<svg class="w-5 h-5 text-yellow-500 mt-0.5" fill="none" stroke="currentColor"
+								viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 									d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+									d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
 							</svg>
 							<span>Jl. Pendidikan No. 123, Kota Pelajar, Indonesia 12345</span>
 						</li>
@@ -140,6 +146,8 @@
 			</div>
 		</div>
 	</footer>
+
+	@stack('scripts')
 </body>
 
 </html>

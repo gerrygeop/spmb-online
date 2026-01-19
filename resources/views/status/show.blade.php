@@ -4,7 +4,7 @@
 
 			{{-- Flash Messages --}}
 			@if (session('success'))
-				<div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-xl" role="alert">
+				<div class="bg-green-50 border-l-4 border border-green-500 p-4 rounded-r-xl" role="alert">
 					<div class="flex">
 						<svg class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -284,12 +284,6 @@
 						@endif
 					</div>
 				</div>
-			</div>
-
-			{{-- Back Link --}}
-			<div class="text-center">
-				<a href="{{ route('status') }}" class="text-sm text-slate-600 hover:text-indigo-600 transition-colors">←
-					Cek Kode Pendaftaran Lain</a>
 			</div>
 		</div>
 	</div>

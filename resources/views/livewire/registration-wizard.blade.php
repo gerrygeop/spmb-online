@@ -1,13 +1,13 @@
 <div class="bg-indigo-50/50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
 	<div class="max-w-4xl mx-auto">
-		{{-- <!-- Header --> --}}
+		{{-- Header --}}
 		<div class="text-center mb-10">
 			<h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">Formulir Pendaftaran Online</h1>
 			<p class="text-slate-500 text-lg">Lengkapi data diri Anda untuk bergabung dengan kami.</p>
 		</div>
 
 		<div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-			{{-- <!-- Stepper --> --}}
+			{{-- Stepper --}}
 			<div class="bg-slate-50/50 border-b border-slate-100 px-6 py-6 sm:px-10">
 				<nav aria-label="Progress">
 					<ol role="list" class="flex items-center justify-between w-full max-w-2xl mx-auto">
@@ -56,9 +56,8 @@
 				</nav>
 			</div>
 
-
 			<form wire:submit.prevent="submit" class="p-6 sm:p-10">
-				{{-- <!-- Step 1: School Level --> --}}
+				{{-- Step 1: School Level --}}
 				@if ($currentStep == 1)
 					<div class="animate-fade-in-up">
 						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
@@ -130,7 +129,7 @@
 					@enderror
 				@endif
 
-				{{-- <!-- Step 2: Student Data --> --}}
+				{{-- Step 2: Student Data --}}
 				@if ($currentStep == 2)
 					<div class="animate-fade-in-up space-y-6">
 						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
@@ -244,7 +243,7 @@
 					</div>
 				@endif
 
-				{{-- <!-- Step 3: Parent Data --> --}}
+				{{-- Step 3: Parent Data --}}
 				@if ($currentStep == 3)
 					<div class="animate-fade-in-up space-y-8">
 						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
@@ -253,7 +252,7 @@
 							Data Orang Tua / Wali
 						</h2>
 
-						{{-- <!-- Father --> --}}
+						{{-- Father --}}
 						<div class="p-6 rounded-2xl border border-slate-100">
 							<h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
 								Data Ayah
@@ -289,7 +288,7 @@
 							</div>
 						</div>
 
-						{{-- <!-- Mother --> --}}
+						{{-- Mother --}}
 						<div class="p-6 rounded-2xl border border-slate-100">
 							<h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
 								Data Ibu
@@ -327,7 +326,7 @@
 					</div>
 				@endif
 
-				{{-- <!-- Step 4: Documents --> --}}
+				{{-- Step 4: Documents --}}
 				@if ($currentStep == 4)
 					<div class="animate-fade-in-up space-y-6">
 						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
@@ -367,13 +366,7 @@
 									</label>
 
 									<input type="file" wire:model="{{ $field }}" id="{{ $field }}"
-										class="block w-full text-sm text-slate-500
-																			  file:mr-4 file:py-2.5 file:px-4
-																			  file:rounded-full file:border-0
-																			  file:text-sm file:font-semibold
-																			  file:bg-indigo-50 file:text-indigo-700
-																			  hover:file:bg-indigo-100
-																			" />
+										class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 " />
 
 									<div wire:loading wire:target="{{ $field }}"
 										class="mt-2 text-sm text-indigo-600 italic flex items-center gap-1">
@@ -396,7 +389,7 @@
 					</div>
 				@endif
 
-				{{-- <!-- Step 5: Confirmation --> --}}
+				{{-- Step 5: Confirmation --}}
 				@if ($currentStep == 5)
 					<div class="animate-fade-in-up">
 						<h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
@@ -460,7 +453,7 @@
 					</div>
 				@endif
 
-				{{-- <!-- Navigation Buttons --> --}}
+				{{-- Navigation Buttons --}}
 				<div class="mt-10 pt-6 border-t border-slate-100 flex justify-between items-center">
 					@if ($currentStep > 1)
 						<button type="button" wire:click="previousStep"
@@ -468,7 +461,6 @@
 							&larr; Kembali
 						</button>
 					@else
-						{{-- <!-- Spacer --> --}}
 						<div></div>
 					@endif
 

@@ -17,9 +17,7 @@
 			<div class="hidden md:flex space-x-8 items-center">
 				<a href="{{ url('/') }}"
 					class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Beranda</a>
-				<a href="#alur" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Alur
-					Pendaftaran</a>
-				<a href="#jadwal" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Jadwal</a>
+				<a href="/#jadwal" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Jadwal</a>
 			</div>
 			<div class="hidden md:flex md:items-center md:gap-3">
 				<a href="{{ route('status') }}"

@@ -23,7 +23,7 @@
 	];
 @endphp
 
-<div class="relative bg-blue-900 py-16">
+<div id="jadwal" class="relative bg-blue-900 py-16">
 	{{-- Pattern Layer --}}
 	<div class="absolute inset-0 opacity-30 text-slate-900 pointer-events-none">
 		<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">

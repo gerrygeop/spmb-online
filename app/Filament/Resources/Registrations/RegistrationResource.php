@@ -23,6 +23,8 @@ class RegistrationResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
 
     protected static ?string $recordTitleAttribute = 'registration_code';
+    protected static ?string $navigationLabel = 'Pendaftaran';
+    protected static ?string $label = 'Pendaftaran';
 
     public static function form(Schema $schema): Schema
     {

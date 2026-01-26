@@ -16,14 +16,22 @@ class RegistrationsTable
         return $table
             ->columns([
                 TextColumn::make('registration_code')
+                    ->label('Nomor Pendaftaran')
                     ->searchable(),
+
                 TextColumn::make('school_level')
-                    ->badge(),
+                    ->label('Jenjang Pendidikan')
+                    ->formatStateUsing(fn(string $state): string => str()->upper($state))
+                    ->sortable(),
+
                 TextColumn::make('status')
                     ->badge(),
+
                 TextColumn::make('total_amount')
-                    ->numeric()
+                    ->label('Total Pembayaran')
+                    ->money('IDR', true)
                     ->sortable(),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

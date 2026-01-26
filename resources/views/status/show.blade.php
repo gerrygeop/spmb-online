@@ -35,7 +35,7 @@
 				</div>
 
 				{{-- Status Badge --}}
-				@php
+				{{-- @php
 					$statusConfig = [
 					    'pending_payment' => [
 					        'label' => 'Menunggu Pembayaran',
@@ -69,21 +69,22 @@
 					    'color' => 'bg-slate-100 text-slate-800 border-slate-300',
 					    'icon' => '📝',
 					];
-				@endphp
+				@endphp --}}
 				<div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
 					<div class="flex items-center gap-3">
-						<span class="text-2xl">{{ $status['icon'] }}</span>
+						<span class="text-2xl">{{ $registration->status->statusIcon() }}</span>
 						<div>
 							<span class="text-xs text-slate-500 uppercase tracking-wider">Status</span>
-							<div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold {{ $status['color'] }} border">
-								{{ $status['label'] }}
+							<div
+								class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold {{ $registration->status->statusColor() }} border">
+								{{ $registration->status->getLabel() }}
 							</div>
 						</div>
 					</div>
 				</div>
 
 				{{-- Payment Section --}}
-				@if ($registration->status === 'pending_payment')
+				@if ($registration->status === \App\Enums\RegistrationStatus::PEMBAYARAN_TERTUNDA)
 					<div class="px-6 py-6 bg-yellow-50 border-b border-yellow-100">
 						<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
 							<div>

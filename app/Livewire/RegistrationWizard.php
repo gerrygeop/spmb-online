@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\RegistrationStatus;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Registration;
@@ -150,7 +151,7 @@ class RegistrationWizard extends Component
                 $registration = Registration::where('registration_code', $this->registrationCode)->firstOrFail();
                 $registration->update([
                     'school_level' => $this->school_level,
-                    'status' => 'verification_pending',
+                    'status' => RegistrationStatus::PEMBAYARAN_TERTUNDA,
                 ]);
 
                 $registration->studentProfile()->update([
@@ -181,7 +182,7 @@ class RegistrationWizard extends Component
                 $registration = Registration::create([
                     'registration_code' => 'REG-' . date('Y') . '-' . mt_rand(1000, 9999),
                     'school_level' => $this->school_level,
-                    'status' => 'pending_payment',
+                    'status' => RegistrationStatus::PEMBAYARAN_TERTUNDA,
                     'total_amount' => 150000,
                 ]);
 

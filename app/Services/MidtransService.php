@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\RegistrationStatus;
 use App\Models\Payment;
 use App\Models\Registration;
 use Midtrans\Config;
@@ -29,7 +30,7 @@ class MidtransService
     public function createSnapToken(Registration $registration): array
     {
         $orderId = $this->generateOrderId($registration);
-        
+
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
@@ -89,9 +90,9 @@ class MidtransService
     {
         $newStatus = $this->mapTransactionStatus($transactionStatus, $fraudStatus);
         $paymentStatus = $this->mapPaymentStatus($transactionStatus);
-        
+
         $registration->update(['status' => $newStatus]);
-        
+
         // Update payment record
         if ($registration->payment) {
             $registration->payment->update(['status' => $paymentStatus]);
@@ -110,11 +111,11 @@ class MidtransService
     private function mapTransactionStatus(string $transactionStatus, string $fraudStatus): string
     {
         return match ($transactionStatus) {
-            'capture' => $fraudStatus === 'accept' ? 'payment_verified' : 'pending_payment',
-            'settlement' => 'payment_verified',
-            'pending' => 'pending_payment',
-            'deny', 'expire', 'cancel' => 'pending_payment',
-            default => 'pending_payment',
+            'capture' => $fraudStatus === 'accept' ? RegistrationStatus::PEMBAYARAN_TERVERIFIKASI->value : RegistrationStatus::PEMBAYARAN_TERTUNDA->value,
+            'settlement' => RegistrationStatus::PEMBAYARAN_TERVERIFIKASI->value,
+            'pending' => RegistrationStatus::PEMBAYARAN_TERTUNDA->value,
+            'deny', 'expire', 'cancel' => RegistrationStatus::PEMBAYARAN_TERTUNDA->value,
+            default => RegistrationStatus::PEMBAYARAN_TERTUNDA->value,
         };
     }
 

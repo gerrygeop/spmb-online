@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('registration_code')->unique();
             $table->enum('school_level', ['sd', 'smp', 'sma']);
 
-            $table->enum('status', ['draft', 'pending_payment', 'payment_verified', 'verification_pending', 'need_revision', 'approved', 'rejected'])->default('draft');
+            $table->string('status')->nullable();
             $table->text('notes')->nullable();
             $table->decimal('total_amount', 12, 2)->default(0);
             $table->timestamps();

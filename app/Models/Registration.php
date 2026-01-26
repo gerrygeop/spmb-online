@@ -18,6 +18,10 @@ class Registration extends Model
         'total_amount',
     ];
 
+    protected $casts = [
+        'status' => \App\Enums\RegistrationStatus::class,
+    ];
+
     public function studentProfile()
     {
         return $this->hasOne(StudentProfile::class);

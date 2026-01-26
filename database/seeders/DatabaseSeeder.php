@@ -21,10 +21,5 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@example.com',
         ]);
-
-        // \App\Models\Registration::factory(10)
-        //     ->has(\App\Models\StudentProfile::factory(), 'studentProfile')
-        //     ->has(\App\Models\ParentProfile::factory(), 'parentProfile')
-        //     ->create();
     }
 }

@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
-        \App\Models\Registration::factory(10)
-            ->has(\App\Models\StudentProfile::factory(), 'studentProfile')
-            ->has(\App\Models\ParentProfile::factory(), 'parentProfile')
-            ->create();
+        // \App\Models\Registration::factory(10)
+        //     ->has(\App\Models\StudentProfile::factory(), 'studentProfile')
+        //     ->has(\App\Models\ParentProfile::factory(), 'parentProfile')
+        //     ->create();
     }
 }

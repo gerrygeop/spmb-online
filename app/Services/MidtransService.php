@@ -37,9 +37,9 @@ class MidtransService
                 'gross_amount' => (int) $registration->total_amount,
             ],
             'customer_details' => [
-                'first_name' => $registration->studentProfile->full_name ?? 'Customer',
-                'email' => $registration->studentProfile->email ?? 'customer@example.com',
-                'phone' => $registration->studentProfile->phone_number ?? '08123456789',
+                'first_name' => $registration->student->full_name ?? 'Customer',
+                'email' => $registration->student->email ?? 'customer@example.com',
+                'phone' => $registration->student->phone_number ?? '08123456789',
             ],
         ];
 

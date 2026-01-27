@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Carbon\Carbon;
 
 class StudentProfile extends Model
 {
@@ -26,5 +28,13 @@ class StudentProfile extends Model
     public function registration()
     {
         return $this->belongsTo(Registration::class);
+    }
+
+    protected function ttl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->place_of_birth . ', ' .
+                Carbon::parse($this->date_of_birth)->format('d M Y'),
+        );
     }
 }

@@ -22,10 +22,10 @@ Route::post('/status', function (\Illuminate\Http\Request $request) {
 })->name('status.check');
 
 Route::get('/registration/{code}', function ($code) {
-    $registration = \App\Models\Registration::with(['studentProfile', 'parentProfile', 'documents', 'payment'])
-    ->where('registration_code', $code)
-    ->firstOrFail();
-    
+    $registration = \App\Models\Registration::with(['student', 'parentProfile', 'documents', 'payment'])
+        ->where('registration_code', $code)
+        ->firstOrFail();
+
     return view('status.show', compact('registration'));
 })->name('status.show');
 

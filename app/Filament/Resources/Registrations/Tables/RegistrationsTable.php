@@ -19,6 +19,14 @@ class RegistrationsTable
                     ->label('Nomor Pendaftaran')
                     ->searchable(),
 
+                TextColumn::make('student.full_name')
+                    ->label('Nama Lengkap')
+                    ->searchable(),
+
+                TextColumn::make('student.email')
+                    ->label('Email')
+                    ->searchable(),
+
                 TextColumn::make('school_level')
                     ->label('Jenjang Pendidikan')
                     ->formatStateUsing(fn(string $state): string => str()->upper($state))

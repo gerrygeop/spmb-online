@@ -50,9 +50,9 @@ class RegistrationWizard extends Component
     public function mount($code = null)
     {
         if ($code) {
-            $registration = Registration::with(['studentProfile', 'parentProfile'])->where('registration_code', $code)->firstOrFail();
+            $registration = Registration::with(['student', 'parentProfile'])->where('registration_code', $code)->firstOrFail();
 
-            if ($registration->status !== 'need_revision') {
+            if ($registration->status !== RegistrationStatus::PERBAIKAN) {
                 abort(403, 'Pendaftaran tidak dapat diedit saat ini.');
             }
 
@@ -61,15 +61,15 @@ class RegistrationWizard extends Component
             $this->school_level = $registration->school_level;
 
             // Student
-            $this->full_name = $registration->studentProfile->full_name;
-            $this->email = $registration->studentProfile->email;
-            $this->phone_number = $registration->studentProfile->phone_number;
-            $this->gender = $registration->studentProfile->gender;
-            $this->place_of_birth = $registration->studentProfile->place_of_birth;
-            $this->date_of_birth = $registration->studentProfile->date_of_birth;
-            $this->address = $registration->studentProfile->address;
-            $this->nisn = $registration->studentProfile->nisn;
-            $this->previous_school = $registration->studentProfile->previous_school;
+            $this->full_name = $registration->student->full_name;
+            $this->email = $registration->student->email;
+            $this->phone_number = $registration->student->phone_number;
+            $this->gender = $registration->student->gender;
+            $this->place_of_birth = $registration->student->place_of_birth;
+            $this->date_of_birth = $registration->student->date_of_birth;
+            $this->address = $registration->student->address;
+            $this->nisn = $registration->student->nisn;
+            $this->previous_school = $registration->student->previous_school;
 
             // Parent
             $this->father_name = $registration->parentProfile->father_name;
@@ -151,10 +151,10 @@ class RegistrationWizard extends Component
                 $registration = Registration::where('registration_code', $this->registrationCode)->firstOrFail();
                 $registration->update([
                     'school_level' => $this->school_level,
-                    'status' => RegistrationStatus::PEMBAYARAN_TERTUNDA,
+                    'status' => RegistrationStatus::PERBAIKAN,
                 ]);
 
-                $registration->studentProfile()->update([
+                $registration->student()->update([
                     'full_name' => $this->full_name,
                     'email' => $this->email,
                     'phone_number' => $this->phone_number,
@@ -186,7 +186,7 @@ class RegistrationWizard extends Component
                     'total_amount' => 150000,
                 ]);
 
-                $registration->studentProfile()->create([
+                $registration->student()->create([
                     'full_name' => $this->full_name,
                     'email' => $this->email,
                     'phone_number' => $this->phone_number,

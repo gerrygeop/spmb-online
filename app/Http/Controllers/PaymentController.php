@@ -19,7 +19,7 @@ class PaymentController extends Controller
      */
     public function getToken(PaymentTokenRequest $request): JsonResponse
     {
-        $registration = Registration::with('studentProfile')
+        $registration = Registration::with('student')
             ->where('registration_code', $request->validated('registration_code'))
             ->firstOrFail();
 

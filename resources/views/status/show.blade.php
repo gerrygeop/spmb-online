@@ -1,6 +1,6 @@
 <x-layouts.landing>
 	<div class="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-		<div class="max-w-5xl mx-auto space-y-6">
+		<div class="max-w-7xl mx-auto space-y-6">
 
 			{{-- Flash Messages --}}
 			@if (session('success'))
@@ -22,9 +22,12 @@
 				<div class="bg-linear-to-r from-slate-900 to-slate-800 px-6 py-8 md:px-10 text-white">
 					<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 						<div>
-							<h1 class="text-2xl font-bold">Status Pendaftaran</h1>
-							<p class="text-slate-400 mt-1">
-								{{ $registration->studentProfile->full_name ?? 'Calon Siswa' }}</p>
+							<h1 class="text-2xl font-semibold">
+								{{ $registration->student->full_name ?? 'Calon Siswa' }}
+							</h1>
+							<h5 class="text-slate-400 mt-1">
+								NISN {{ $registration->student->nisn ?? '-' }}
+							</h5>
 						</div>
 						<div class="text-left md:text-right">
 							<div class="text-xs text-slate-400 uppercase tracking-wider">Kode Pendaftaran</div>
@@ -34,42 +37,7 @@
 					</div>
 				</div>
 
-				{{-- Status Badge --}}
-				{{-- @php
-					$statusConfig = [
-					    'pending_payment' => [
-					        'label' => 'Menunggu Pembayaran',
-					        'color' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
-					        'icon' => '💳',
-					    ],
-					    'payment_verified' => [
-					        'label' => 'Pembayaran Terverifikasi',
-					        'color' => 'bg-blue-100 text-blue-800 border-blue-300',
-					        'icon' => '✅',
-					    ],
-					    'verification_pending' => [
-					        'label' => 'Menunggu Verifikasi',
-					        'color' => 'bg-indigo-100 text-indigo-800 border-indigo-300',
-					        'icon' => '🔍',
-					    ],
-					    'need_revision' => [
-					        'label' => 'Perlu Perbaikan',
-					        'color' => 'bg-orange-100 text-orange-800 border-orange-300',
-					        'icon' => '⚠️',
-					    ],
-					    'approved' => [
-					        'label' => 'Diterima',
-					        'color' => 'bg-green-100 text-green-800 border-green-300',
-					        'icon' => '🎉',
-					    ],
-					    'rejected' => ['label' => 'Ditolak', 'color' => 'bg-red-100 text-red-800 border-red-300', 'icon' => '❌'],
-					];
-					$status = $statusConfig[$registration->status] ?? [
-					    'label' => 'Draft',
-					    'color' => 'bg-slate-100 text-slate-800 border-slate-300',
-					    'icon' => '📝',
-					];
-				@endphp --}}
+				{{-- Status Section --}}
 				<div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
 					<div class="flex items-center gap-3">
 						<span class="text-2xl">{{ $registration->status->statusIcon() }}</span>
@@ -85,7 +53,7 @@
 
 				{{-- Payment Section --}}
 				@if ($registration->status === \App\Enums\RegistrationStatus::PEMBAYARAN_TERTUNDA)
-					<div class="px-6 py-6 bg-yellow-50 border-b border-yellow-100">
+					<div class="px-6 py-6 bg-yellow-50 border-t border-yellow-500">
 						<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
 							<div>
 								<h3 class="font-bold text-yellow-900">Tagihan Pembayaran Pendaftaran</h3>
@@ -94,6 +62,7 @@
 								<p class="text-sm text-yellow-700 mt-2">Selesaikan pembayaran untuk melanjutkan proses
 									pendaftaran.</p>
 							</div>
+
 							<button id="pay-button"
 								class="w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
 								<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,7 +76,7 @@
 				@endif
 
 				{{-- Payment Verified - Next Steps --}}
-				@if ($registration->status === 'payment_verified')
+				@if ($registration->status === \App\Enums\RegistrationStatus::PEMBAYARAN_TERVERIFIKASI)
 					<div class="px-6 py-6 bg-blue-50 border-b border-blue-100">
 						<h3 class="font-bold text-blue-900 mb-3">✅ Pembayaran Berhasil!</h3>
 						<p class="text-sm text-blue-800 mb-4">Data Anda sedang dalam proses verifikasi oleh Admin.</p>
@@ -125,7 +94,7 @@
 				@endif
 
 				{{-- Need Revision --}}
-				@if ($registration->status === 'need_revision')
+				@if ($registration->status->value === \App\Enums\RegistrationStatus::PERBAIKAN->value)
 					<div class="px-6 py-6 bg-orange-50 border-b border-orange-100">
 						<h3 class="font-bold text-orange-900 mb-2">⚠️ Perlu Perbaikan Data</h3>
 						<p class="text-sm text-orange-800 mb-3">{{ $registration->notes }}</p>
@@ -137,7 +106,7 @@
 				@endif
 
 				{{-- Approved --}}
-				@if ($registration->status === 'approved')
+				@if ($registration->status === \App\Enums\RegistrationStatus::DITERIMA)
 					<div class="px-6 py-6 bg-green-50 border-b border-green-100">
 						<h3 class="font-bold text-green-900 mb-2">🎉 Selamat! Anda Diterima</h3>
 						<p class="text-sm text-green-800">Silakan datang ke sekolah untuk proses daftar ulang dengan membawa
@@ -158,7 +127,7 @@
 							<div>
 								<dt class="text-slate-500">Nama Lengkap</dt>
 								<dd class="font-semibold text-slate-900">
-									{{ $registration->studentProfile->full_name ?? '-' }}</dd>
+									{{ $registration->student->full_name ?? '-' }}</dd>
 							</div>
 							<div>
 								<dt class="text-slate-500">Jenjang</dt>
@@ -168,39 +137,39 @@
 							<div>
 								<dt class="text-slate-500">NISN</dt>
 								<dd class="font-semibold text-slate-900">
-									{{ $registration->studentProfile->nisn ?? '-' }}</dd>
+									{{ $registration->student->nisn ?? '-' }}</dd>
 							</div>
 							<div>
 								<dt class="text-slate-500">Jenis Kelamin</dt>
 								<dd class="font-semibold text-slate-900">
-									{{ $registration->studentProfile->gender ?? '-' }}</dd>
+									{{ $registration->student->gender ?? '-' }}</dd>
 							</div>
 							<div>
 								<dt class="text-slate-500">Tempat, Tanggal Lahir</dt>
 								<dd class="font-semibold text-slate-900">
-									{{ $registration->studentProfile->place_of_birth ?? '-' }},
-									{{ $registration->studentProfile->date_of_birth ? \Carbon\Carbon::parse($registration->studentProfile->date_of_birth)->isoFormat('D MMMM Y') : '-' }}
+									{{ $registration->student->place_of_birth ?? '-' }},
+									{{ $registration->student->date_of_birth ? \Carbon\Carbon::parse($registration->student->date_of_birth)->isoFormat('D MMMM Y') : '-' }}
 								</dd>
 							</div>
 							<div>
 								<dt class="text-slate-500">Email</dt>
 								<dd class="font-semibold text-slate-900">
-									{{ $registration->studentProfile->email ?? '-' }}</dd>
+									{{ $registration->student->email ?? '-' }}</dd>
 							</div>
 							<div>
 								<dt class="text-slate-500">No. Telepon</dt>
 								<dd class="font-semibold text-slate-900">
-									{{ $registration->studentProfile->phone_number ?? '-' }}</dd>
+									{{ $registration->student->phone_number ?? '-' }}</dd>
 							</div>
 							<div>
 								<dt class="text-slate-500">Asal Sekolah</dt>
 								<dd class="font-semibold text-slate-900">
-									{{ $registration->studentProfile->previous_school ?? '-' }}</dd>
+									{{ $registration->student->previous_school ?? '-' }}</dd>
 							</div>
 							<div class="sm:col-span-2">
 								<dt class="text-slate-500">Alamat</dt>
 								<dd class="font-semibold text-slate-900">
-									{{ $registration->studentProfile->address ?? '-' }}</dd>
+									{{ $registration->student->address ?? '-' }}</dd>
 							</div>
 						</dl>
 					</div>
@@ -212,17 +181,42 @@
 						<h3 class="font-bold text-slate-900">👨‍👩‍👧 Data Orang Tua</h3>
 					</div>
 					<div class="p-6 space-y-4 text-sm">
-						<div>
-							<h4 class="font-semibold text-slate-700 mb-1">Ayah</h4>
-							<p class="text-slate-900">{{ $registration->parentProfile->father_name ?? '-' }}</p>
-							<p class="text-slate-500">{{ $registration->parentProfile->father_occupation ?? '-' }} •
-								{{ $registration->parentProfile->father_phone ?? '-' }}</p>
+						<div class="grid grid-cols-2 gap-y-3">
+							<div>
+								<span class="text-slate-500 mb-1">Nama Ayah</span>
+								<p class=" text-slate-900 font-semibold">{{ $registration->parentProfile->father_name ?? '-' }}</p>
+							</div>
+							<div>
+								<span class="text-slate-500 mb-1">Pekerjaan Ayah</span>
+								<p class="text-slate-900 font-semibold">
+									{{ $registration->parentProfile->father_occupation ?? '-' }}
+								</p>
+							</div>
+							<div>
+								<span class="text-slate-500 mb-1">No. Telepon Ayah</span>
+								<p class="text-slate-900 font-semibold">
+									{{ $registration->parentProfile->father_phone ?? '-' }}
+								</p>
+							</div>
 						</div>
-						<div>
-							<h4 class="font-semibold text-slate-700 mb-1">Ibu</h4>
-							<p class="text-slate-900">{{ $registration->parentProfile->mother_name ?? '-' }}</p>
-							<p class="text-slate-500">{{ $registration->parentProfile->mother_occupation ?? '-' }} •
-								{{ $registration->parentProfile->mother_phone ?? '-' }}</p>
+
+						<div class="grid grid-cols-2 gap-y-3">
+							<div>
+								<span class="text-slate-500 mb-1">Nama Ibu</span>
+								<p class=" text-slate-900 font-semibold">{{ $registration->parentProfile->mother_name ?? '-' }}</p>
+							</div>
+							<div>
+								<span class="text-slate-500 mb-1">Pekerjaan Ibu</span>
+								<p class="text-slate-900 font-semibold">
+									{{ $registration->parentProfile->mother_occupation ?? '-' }}
+								</p>
+							</div>
+							<div>
+								<span class="text-slate-500 mb-1">No. Telepon Ibu</span>
+								<p class="text-slate-900 font-semibold">
+									{{ $registration->parentProfile->mother_phone ?? '-' }}
+								</p>
+							</div>
 						</div>
 						@if ($registration->parentProfile->guardian_name)
 							<div>

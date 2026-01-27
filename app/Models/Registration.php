@@ -22,7 +22,7 @@ class Registration extends Model
         'status' => \App\Enums\RegistrationStatus::class,
     ];
 
-    public function studentProfile()
+    public function student()
     {
         return $this->hasOne(StudentProfile::class);
     }
